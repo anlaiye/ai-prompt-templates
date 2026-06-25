@@ -1,45 +1,45 @@
-# 通用工作流模板
+# Generic Workflow Template
 
-复制这个模板，替换 `[ ]` 里的内容，贴给 AI。
+Copy this template, replace `[ ]` placeholders, and send it to AI.
 
 ---
 
-## [流程名称]
+## [Workflow Name]
 
-### 角色
+### Roles
 
-- **[角色1](变量名)**：[职责说明]
-- **[角色2](变量名)**：[职责说明]
-- **[角色3]**：[职责说明]
+- **[Role 1](variable_name)**: [what they do]
+- **[Role 2](variable_name)**: [what they do]
+- **[Role 3]**: [what they do]
 
-### 主流程
+### Main Flow
 
 ```mermaid
 graph TD
-  A[开始] --> B[[步骤1]]
-  B --> C[[步骤2]]
-  C --> D{[分支点]}
-  D -- [条件1] --> E[[步骤3]]
-  D -- [条件2] --> F[[步骤4]]
-  E --> G[结束]
+  A[Start] --> B[[Step 1]]
+  B --> C[[Step 2]]
+  C --> D{[Branch Point]}
+  D -- [Condition 1] --> E[[Step 3]]
+  D -- [Condition 2] --> F[[Step 4]]
+  E --> G[End]
 ```
 
-### 分支条件
+### Branch Conditions
 
-**分支点名称：**
+**Branch Point Name:**
 
-| 操作 | 条件 | 去向 | 说明 |
-|------|------|------|------|
-| [操作1] | [变量=值] | → [目标] | [业务含义] |
-| [操作2] | [变量=值] | → [目标] | [业务含义] |
+| Action | Condition | Target | Description |
+|--------|-----------|--------|-------------|
+| [Action 1] | [var=value] | → [target] | [business meaning] |
+| [Action 2] | [var=value] | → [target] | [business meaning] |
 
-### 特殊路径
+### Special Paths
 
-- **循环**：[节点A] → [节点B] → [回到节点A]（说明原因）
-- **快捷路径**：[节点A] → 跳过 [节点B/C] → 直接到 [节点D]
+- **Loop**: [Node A] → [Node B] → [back to Node A] (reason)
+- **Shortcut**: [Node A] → skip [Nodes B/C] → directly to [Node D]
 
-### 技术要求（可选）
+### Technical Details (optional)
 
-- 流程引擎：[如 Activiti / Camunda / 自研]
-- 关键变量：[变量名]=[值] 含义
-- 表单映射：[节点] → [表单路径]
+- Engine: [e.g. Activiti / Camunda / custom]
+- Key variables: [var]=[value] meaning
+- Form mapping: [node] → [form path]

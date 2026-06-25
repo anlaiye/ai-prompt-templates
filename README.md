@@ -1,55 +1,55 @@
 # AI Prompt Templates 🧰
 
-个人提示词仓库。工作中踩坑验证过的 Prompt，随手沉淀。
+My personal prompt library. Battle-tested prompts from real work, collected over time.
 
-## 为什么需要这个
+## Why this exists
 
-给 AI 描述业务流程时，常见的问题：
+Common pitfalls when describing business processes to AI:
 
-- ❌ 丢个 BPMN XML（200+ 行），AI 迷失在标签里
-- ❌ 纯文字描述，AI 漏掉分支条件
-- ❌ 没说清楚角色，AI 不知道"谁在做什么"
+- ❌ Dumping a 200+ line BPMN XML — AI gets lost in the tags
+- ❌ Plain text without structure — AI misses branch conditions
+- ❌ Forgetting to define roles — AI doesn't know *who* does *what*
 
-经过反复踩坑，最有效的方案是 **三件套**：
+After trial and error, the most effective approach is the **three-piece toolkit**:
 
-> 角色说明 → Mermaid 流程图 → 分支表格
+> Roles → Mermaid diagram → Branch table
 
-## Mermaid 速查
+## Mermaid quick reference
 
-用文字画流程图的标记语言。GitHub / Notion / Obsidian 都原生支持。
+A text-based diagramming language. Natively supported by GitHub, Notion, and Obsidian.
 
-| 写法 | 意思 |
-|------|------|
-| `A[文字]` | 方形节点 |
-| `A{文字}` | 菱形（分支判断） |
-| `A --> B` | 箭头 |
-| `A -->|标签| B` | 带条件的箭头 |
-| `graph TD` | 从上到下 |
-| `graph LR` | 从左到右 |
+| Syntax | Meaning |
+|--------|---------|
+| `A[text]` | Rectangle node |
+| `A{text}` | Diamond (decision) |
+| `A --> B` | Arrow |
+| `A -->|label| B` | Labeled arrow |
+| `graph TD` | Top-down layout |
+| `graph LR` | Left-right layout |
 
 ```mermaid
 graph TD
-  A[开始] --> B[处理]
-  B --> C{判断}
-  C -- 是 --> D[通过]
-  C -- 否 --> E[驳回]
+  A[Start] --> B[Process]
+  B --> C{Decision}
+  C -- Yes --> D[Approve]
+  C -- No --> E[Reject]
 ```
 
-## 模板
+## Templates
 
-| 文件 | 说明 |
-|------|------|
-| [templates/workflow.md](templates/workflow.md) | 通用工作流模板，填空即用 |
-| [examples/canteen-workflow.md](examples/canteen-workflow.md) | 完整案例：食堂投诉工单流程 |
+| File | Description |
+|------|-------------|
+| [templates/workflow.md](templates/workflow.md) | Generic workflow template — fill in the blanks |
+| [examples/canteen-workflow.md](examples/canteen-workflow.md) | Real-world example: canteen complaint workflow |
 
-## 使用方法
+## How to use
 
-1. 复制模板，填上你的角色和流程
-2. 画 Mermaid 图（关键分支都要标注）
-3. 用表格列出分支条件
-4. 把三件套贴给 Claude / GPT，加上一句"请按这个流程开发"
+1. Copy the template, fill in your roles and flow
+2. Draw the Mermaid diagram (label every key branch)
+3. List branch conditions in a table
+4. Paste all three to Claude / GPT with: "Build this workflow"
 
-## 相关
+## Related
 
-- 鹭川 · 智慧后勤 — 食堂管理系统
-- [Mermaid 官方文档](https://mermaid.js.org/)
+- Luchuan · Smart Logistics — canteen management system
+- [Mermaid docs](https://mermaid.js.org/)

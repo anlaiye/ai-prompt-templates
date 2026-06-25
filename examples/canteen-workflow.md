@@ -1,61 +1,61 @@
-# 案例：食堂投诉工单流程
+# Example: Canteen Complaint Workflow
 
-来自鹭川智慧后勤系统的真实工单流程。源文件：Activiti BPMN `feedback.bpmn20.xml`（229 行 XML）。
+A real workflow from the Luchuan Smart Logistics canteen management system. Source: Activiti BPMN `feedback.bpmn20.xml` (229 lines of XML).
 
-## 角色
+## Roles
 
-- **发起人(applyuserid)**：提交投诉 + 最终评价
-- **预处理人(preprocessor)**：接收工单、初步审核、分配
-- **处理人(processor)**：实际解决问题
-- **审核人**：三级审核（初审→复审→终审）
+- **Applicant (applyuserid)**: submits complaint + final satisfaction rating
+- **Pre-processor (preprocessor)**: receives ticket, initial review, assignment
+- **Processor**: investigates and resolves the issue
+- **Reviewer**: three-level review (First → Second → Final)
 
-## 主流程
+## Main Flow
 
 ```mermaid
 graph TD
-  A[开始] --> B[提交工单]
-  B --> C[工单待处理]
-  C --> D{分配}
-  D -- 接受 --> E[工单处理中]
-  D -- 流转/回退 --> C
-  D -- 终止 --> F[初审]
-  D -- 撤销 --> K[处理完成]
+  A[Start] --> B[Submit Ticket]
+  B --> C[Pending Pre-processing]
+  C --> D{Assignment}
+  D -- Accept --> E[In Progress]
+  D -- Transfer/Return --> C
+  D -- Terminate --> F[First Review]
+  D -- Withdraw --> K[Resolved]
   E --> F
-  F --> G{审核}
-  G -- 通过 --> H[复审]
-  G -- 拒绝 --> R[审核不通过]
-  H --> I{审核}
-  I -- 通过 --> J[终审]
-  I -- 拒绝 --> R
-  J --> L{审核}
-  L -- 通过 --> M[用户评价]
-  L -- 拒绝 --> R
-  R -->|重新提交| F
+  F --> G{Review}
+  G -- Approve --> H[Second Review]
+  G -- Reject --> R[Rejected]
+  H --> I{Review}
+  I -- Approve --> J[Final Review]
+  I -- Reject --> R
+  J --> L{Review}
+  L -- Approve --> M[User Rating]
+  L -- Reject --> R
+  R -->|Re-submit| F
   M --> K
-  K --> N[结束]
+  K --> N[End]
 ```
 
-## 分支条件
+## Branch Conditions
 
-### 分配节点（预处理人操作）
+### Assignment Node (Pre-processor)
 
-| 操作 | 条件 | 去向 | 说明 |
-|------|------|------|------|
-| 接受 | received=1 | → 工单处理中 | 正常进入处理流程 |
-| 流转 | received=2 | ↩ 工单待处理 | 转交其他预处理人 |
-| 回退 | received=4 | ↩ 工单待处理 | 信息不全退回补充 |
-| 终止 | received=3 | → 初审 | 跳过处理，直接审核 |
-| 撤销 | received=5 | → 处理完成 → 结束 | 发起人撤回投诉 |
+| Action | Condition | Target | Description |
+|--------|-----------|--------|-------------|
+| Accept | received=1 | → In Progress | Normal processing |
+| Transfer | received=2 | ↩ Pending | Reassign to another pre-processor |
+| Return | received=4 | ↩ Pending | Send back for more info |
+| Terminate | received=3 | → First Review | Skip processing, go straight to review |
+| Withdraw | received=5 | → Resolved → End | Applicant cancels complaint |
 
-### 审核节点（初审/复审/终审相同规则）
+### Review Nodes (same rules for First / Second / Final)
 
-| 结果 | 条件 | 去向 | 说明 |
-|------|------|------|------|
-| 通过 | auditSuccess=1 | → 下一级 / 用户评价 | 终审通过后进入评价 |
-| 拒绝 | auditSuccess=0 | → 审核不通过 → 重新提交 → 初审 | 退回处理人修改 |
+| Result | Condition | Target | Description |
+|--------|-----------|--------|-------------|
+| Approve | auditSuccess=1 | → Next review / User Rating | Final review → rating |
+| Reject | auditSuccess=0 | → Rejected → Re-submit → First Review | Send back to processor |
 
-## 特殊路径
+## Special Paths
 
-- **审核不通过回路**：任意级审核拒绝 → 退回处理人 → 重新提交处理意见 → 回到初审
-- **撤销快捷路径**：分配时撤回 → 跳过所有处理/审核 → 直接结束
-- **终止快捷路径**：分配时终止 → 跳过处理 → 直接进入审核
+- **Rejection loop**: Any review rejects → back to processor → re-submit → back to First Review
+- **Withdrawal shortcut**: Withdraw at assignment → skip all processing & review → end directly
+- **Termination shortcut**: Terminate at assignment → skip processing → enter review directly
