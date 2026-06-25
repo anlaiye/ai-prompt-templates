@@ -1,6 +1,6 @@
-# AI Prompt Templates
+# AI Prompt Templates 🧰
 
-给 AI 描述业务流程的提示词模板合集。
+个人提示词仓库。工作中踩坑验证过的 Prompt，随手沉淀。
 
 ## 为什么需要这个
 
